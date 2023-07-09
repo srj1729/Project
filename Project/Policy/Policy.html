@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="./Policy.css">
+    <script type="text/javascript" src="Policy.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="title">
+            <img src="../Register/Resources/images.jpg"/>
+            <div class="info">
+                <h2>SHIELD INSURANCE</h2>
+                <h4>Reliable Fast Personable</h4>
+            </div>
+        </div>
+        <div class="loginfo">
+            <div class="details">
+                <div class="info-row"><h4>Customer Name :</h4><h4 id="name"> Customer Name</h4></div>
+                <div class="info-row"><h4>Customer ID :</h4><h4 id="custId"> Customer ID</h4></div>
+            </div>
+            <div class="logout" id="logout">
+                <img class="icon" src="../Register/Resources/logout.png"/>
+                <h4>Logout</h4>
+            </div>
+        </div>
+    </div>
+    <hr color="grey" size="1%">
+    <div class="container">
+        <div class="box">
+            <div id="registerPolicy">
+                <h2 style="color:blue;"><u>Choose Your Policy</u></h2>
+                <div class="form-row" >Policy Type<select id="poltype" onchange="updateTitleOptions()" required>
+                    <option value="">Choose Type</option>
+                    <option value="general">General Insurance</option>
+                    <option value="health">Health Insurance</option>
+                    <option value="motor">Motor Insurance</option></select>
+                </div>
+                <div class="form-row" >Policy Title<select id="title" onchange="populateFields()" required>
+                    <option value="">Choose Title</option></select>
+                </div>
+                <div class="form-row" >Sum Assured(rs)<input class="unedit" type="text" id="sum" readonly/> </div>
+                <div class="form-row" >Premium Amount(rs)<input class="unedit" type="text" id="premium" readonly /></div>
+                <div class="form-row" >Policy Term(yr)<input class="unedit" type="text" id="term" readonly /></div>
+                <div class="btn-row" >
+                    <button id="submit">Confirm</button>
+                    <button id="view-pol">View Policy</button>
+                </div>       
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var user = JSON.parse(sessionStorage.getItem('currentLogin'));
+    function setValue(id, newvalue) {
+        var s = document.getElementById(id);
+        s.innerHTML = newvalue;
+    }
+    window.onload = function() {
+        setValue("custId", user.userId);
+        setValue("name", user.name);
+    }
+    document.getElementById("submit").onclick = function () {
+        const polType = document.getElementById('poltype');
+        const titleDropdown = document.getElementById('title');
+        if(polType.value=='' || titleDropdown.value==''){
+            alert("Fill all the fields!");
+        }
+        else{
+            const date = new Date();
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+            let currentDate = `${day}-${month}-${year}`;
+            let nextDate = `${day}-${month}-${year+1}`;
+            const policyId=Math.floor(Math.random() * 100000);
+            var user = JSON.parse(sessionStorage.getItem('currentLogin'));
+            const userId=user.userId;
+            const polType = document.getElementById('poltype').value;
+            const title = document.getElementById('title').value;
+            const sum = document.getElementById('sum').value;
+            const premium = document.getElementById('premium').value;
+            const term = document.getElementById('term').value;
+            const status = "Active";
+            const nom = "Yes";
+            let policyData = JSON.parse(localStorage.getItem('policyData')) || [];
+            let sessionPolicyData = JSON.parse(sessionStorage.getItem('policyData')) || [];
+            let policy={ userId, currentDate, nextDate, policyId, polType, title, sum, premium, term, status, nom}
+            policyData.push(policy);
+            sessionPolicyData.push(policy);
+            localStorage.setItem('policyData', JSON.stringify(policyData));
+            sessionStorage.setItem('policyData', JSON.stringify(sessionPolicyData));
+            location.href='../PolicyAck/Ack.html';
+        }
+    }
+    document.getElementById("view-pol").onclick = function () {
+        location.href='../GetPolicy/Policy.html';
+    }
+    document.getElementById("logout").onclick = function () {
+        sessionStorage.clear();
+        location.href='../Login/Login.html';
+    }
+
+    const typeDropdown = document.getElementById('poltype');
+    const titleDropdown = document.getElementById('title');
+
+    const titleByType = {
+        general: ['Amar', 'Umang'],
+        health: ['Cancer', 'Rakshak'],
+        motor: ['Car', 'Bike']
+    };
+
+    function updateTitleOptions() {
+
+      titleDropdown.innerHTML = '<option value="">Choose Title</option>';
+
+      const selectedType = typeDropdown.value;
+
+      const titles = titleByType[selectedType];
+
+      if (titles) {
+        for (let i = 0; i < titles.length; i++) {
+          const titleOption = document.createElement('option');
+          titleOption.value = titles[i];
+          titleOption.text = titles[i];
+          titleDropdown.add(titleOption);
+        }
+      }
+      else{
+          const sum = document.getElementById('sum');
+          const premium = document.getElementById('premium');
+          const term = document.getElementById('term');
+          sum.value = '';
+          premium.value = '';
+          term.value = '';
+      }
+    }
+
+    function populateFields() {
+      const titleDropdown = document.getElementById('title');
+      const sum = document.getElementById('sum');
+      const premium = document.getElementById('premium');
+      const term = document.getElementById('term');
+
+      const selectedTitle = titleDropdown.value;
+
+      const dataByTitle = {
+        Amar: {
+           sum: '200000',
+           premium: '1000',
+           term: '15'
+        },
+        Umang: {
+           sum: '400000',
+           premium: '2000',
+           term: '30'
+        },
+        Cancer: {
+           sum: '100000',
+           premium: '1000',
+           term: '5'
+        },
+        Rakshak: {
+           sum: '300000',
+           premium: '1000',
+           term: '5'
+        },
+        Car: {
+           sum: '100000',
+           premium: '1000',
+           term: '5'
+        },
+        Bike: {
+           sum: '50000',
+           premium: '1000',
+           term: '5'
+        }
+      };
+
+      // Populate the input fields based on the selected country
+      if (selectedTitle && dataByTitle[selectedTitle]) {
+        const titleData = dataByTitle[selectedTitle];
+        sum.value = titleData.sum;
+        premium.value = titleData.premium;
+        term.value = titleData.term;
+      } else {
+        sum.value = '';
+        premium.value = '';
+        term.value = '';
+      }
+    }
+
+</script>
+</html>

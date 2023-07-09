@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="./Ack.css">
+    <script type="text/javascript" src="Ack.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="title">
+            <img src="../Register/Resources/images.jpg"/>
+            <div class="info">
+                <h2>SHIELD INSURANCE</h2>
+                <h4>Reliable Fast Personable</h4>
+            </div>
+        </div>
+        <div class="details">
+            <h4>Contact Support</h4>
+            <div class="img-row"><img class="icon" src="../Register/Resources/icons8-phone-50.png"/><h4>+91-6272893456</h4></div>
+            <div class="img-row"><img class="icon" src="../Register/Resources/icons8-email-50.png"/><h4>ilp@tcs.com</h4></div>
+        </div>
+    </div>
+    <hr color="grey" size="1%">
+    <div class="container">
+        <div class="box">
+            <div class="content">
+                <h2 style="color:blue;"><u>Customer Registration Details</u></h2>
+                <h4 style="color:green;">Customer Registration Successful</h2>
+                <div class="ack">
+                    <div class="ack-row"><h4 class="label">Customer ID</h4>: <h4 id="custId"> Customer ID</h4></div>
+                    <div class="ack-row"><h4 class="label">Customer Name</h4>: <h4 id="name"> Customer ID</h4></div>
+                    <div class="ack-row"><h4 class="label">Customer Email</h4>: <h4 id="email"> Customer ID</h4></div>
+                </div>
+                <div class="btn-row" >
+                    <button id="login">Login</button>
+                    <button id="register">Register</button>
+                </div>     
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var user = JSON.parse(sessionStorage.getItem('currentLogin'));
+    function setValue(id, newvalue) {
+        var s = document.getElementById(id);
+        s.innerHTML = newvalue;
+    }
+    window.onload = function() {
+        setValue("custId", user.userId);
+        setValue("name", user.name);
+        setValue("email", user.email);
+    }
+    document.getElementById("login").onclick = function () {
+        sessionStorage.clear();
+        location.href='../Login/Login.html';
+    }
+    document.getElementById("register").onclick = function () {
+        sessionStorage.clear();
+        location.href='../Register/Register.html';
+    }
+</script>
+</html>

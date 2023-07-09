@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="./Login.css">
+    <script type="text/javascript" src="Login.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="title">
+            <img src="../Register/Resources/images.jpg"/>
+            <div class="info">
+                <h2>SHIELD INSURANCE</h2>
+                <h4>Reliable Fast Personable</h4>
+            </div>
+        </div>
+        <div class="details">
+            <h4>Contact Support</h4>
+            <div class="img-row"><img class="icon" src="../Register/Resources/icons8-phone-50.png"/><h4>+91-6272893456</h4></div>
+            <div class="img-row"><img class="icon" src="../Register/Resources/icons8-email-50.png"/><h4>ilp@tcs.com</h4></div>
+        </div>
+    </div>
+    <hr color="grey" size="1%">
+    <div class="container">
+        <div class="box">
+            <form id="registerForm" onsubmit="signIn(event);">
+                <h2 style="color:blue;"><u>Customer Login</u></h2>
+                <div class="form-row" >Customer ID<input type="text" id="custId" required/></div>
+                <div class="form-row" >Password<input type="password" id="pwd" maxlength="30" required /> </div>
+                <div class="btn-row" >
+                    <button type="submit">Login</button>
+                    <button type="reset">Reset</button>
+                </div>       
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    function signIn(e) {
+    let custId = document.getElementById('custId').value, pwd = document.getElementById('pwd').value;
+    let formData = JSON.parse(localStorage.getItem('formData')) || [];
+    let policyData = JSON.parse(localStorage.getItem('policyData')) || [];
+    let exist = formData.length && 
+    JSON.parse(localStorage.getItem('formData')).some(data => data.userId == custId && data.pwd.toLowerCase() == pwd);
+    if(!exist){
+        alert("Incorrect login credentials!");
+    }
+    else{
+        let user=formData.filter(user => user.userId == custId && user.pwd.toLowerCase() == pwd);
+        let policy=policyData.filter(user => user.userId == custId);
+        sessionStorage.setItem('currentLogin', JSON.stringify(user[0]));
+        sessionStorage.setItem('policyData', JSON.stringify(policy));
+        location.href = "../Home/Home.html";
+    }
+    e.preventDefault();
+}
+</script>
+</html>

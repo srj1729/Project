@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="./Register.css">
+    <script type="text/javascript" src="Register.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="title">
+            <img src="../Register/Resources/images.jpg"/>
+            <div class="info">
+                <h2>SHIELD INSURANCE</h2>
+                <h4>Reliable Fast Personable</h4>
+            </div>
+        </div>
+        <div class="details">
+            <h4>Contact Support</h4>
+            <div class="img-row"><img class="icon" src="../Register/Resources/icons8-phone-50.png"/><h4>+91-6272893456</h4></div>
+            <div class="img-row"><img class="icon" src="../Register/Resources/icons8-email-50.png"/><h4>ilp@tcs.com</h4></div>
+        </div>
+    </div>
+    <hr color="grey" size="1%">
+    <div class="container">
+        <div class="box">
+            <form id="registerForm" onsubmit="signUp(event);">
+                <h2 style="color:blue;"><u>Customer Registration</u></h2>
+                <div class="form-row" >Name<input type="text" id="name" maxlength="50" required/></div>
+                <div class="form-row" >Email<input type="email" id="email" required /> </div>  
+                <div class="form-row" >Password<input type="password" id="pwd" maxlength="30" required /> </div>
+                <div class="form-row" >Address<textarea id="add" required ></textarea></div>
+                <div class="form-row" >Contact<input type="text" id="contact" maxlength="10" required /></div>
+                <div class="form-row" >Nominee Name<input type="text" id="nomname" maxlength="50" required /></div>
+                <div class="form-row" >Relationship with Nominee<input type="text" id="relation" maxlength="50" required /></div>
+                <div class="btn-row" >
+                    <button type="submit">Register</button>
+                    <button type="reset">Reset</button>
+                </div>       
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    const signUp = e => {
+    let name = document.getElementById('name').value,
+        email = document.getElementById('email').value,
+        pwd = document.getElementById('pwd').value,
+        add = document.getElementById('add').value,
+        contact = document.getElementById('contact').value,
+        nomname = document.getElementById('nomname').value,
+        relation = document.getElementById('relation').value;
+
+    let formData = JSON.parse(localStorage.getItem('formData')) || [];
+    let exist = formData.length && 
+        formData.some(data => 
+            data.email.toLowerCase() == email.toLowerCase()
+        );
+
+    if(!exist){
+        let userId=-1;
+        while(1){
+            let tempId=Math.floor(Math.random() * 1000);
+            let exist = formData.some(data => 
+                data.userId == tempId
+            );
+            if(!exist){
+                userId=tempId;
+                break;
+            }
+        }
+        let user={ userId, name, email, pwd, add, contact, nomname, relation }
+        formData.push(user);
+        localStorage.setItem('formData', JSON.stringify(formData));
+        sessionStorage.setItem('currentLogin', JSON.stringify(user));
+        location.href="../RegisterAck/Ack.html";
+    }
+    else{
+        alert("You have already signed up");
+    }
+    e.preventDefault();
+}
+</script>
+</html>

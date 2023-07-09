@@ -1,0 +1,115 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-image: linear-gradient(to right, rgba(125,185,175,0.2), rgba(125,185,175,1));
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.title{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info{
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.details{
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+}
+
+img{
+    height: 15vh;
+    border-radius: 30%;
+}
+
+.icon{
+    width: 3vw;
+    height: 5vh;
+}
+
+.img-row{
+    display: flex;
+    align-items: center;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+}
+
+.box{
+    display: flex;
+    justify-content: center;
+    width: 60%;
+    padding: 3%;
+    background-image: linear-gradient(to left, rgba(214,84,96,0.2), rgba(125,185,175,1));
+    border-radius: 25px;
+    box-shadow: rgba(99, 99, 99, 0.5) 0px 2px 8px 0px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 30vh;
+    width: 40%;
+}
+
+.form-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.btn-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+}
+
+input {
+    padding: 0.5em;
+    outline:none;
+    border: none;
+    border-radius: 0.25em;
+    color: black;
+    width: 12vw;
+}
+
+button {
+    width: 6vw;
+    padding: 0.75em;
+    background-color:#3a4845;
+    border:none;
+    outline: none;
+    border-radius: 5px;
+    color: white;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: darkblue;
+}

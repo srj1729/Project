@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="./Policy.css">
+    <script type="text/javascript" src="Policy.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="title">
+            <img src="../Register/Resources/images.jpg"/>
+            <div class="info">
+                <h2>SHIELD INSURANCE</h2>
+                <h4>Reliable Fast Personable</h4>
+            </div>
+        </div>
+        <div class="loginfo">
+            <div class="details">
+                <div class="info-row"><h4>Customer Name :</h4><h4 id="name"> Customer Name</h4></div>
+                <div class="info-row"><h4>Customer ID :</h4><h4 id="custId"> Customer ID</h4></div>
+            </div>
+            <div class="logout" id="logout">
+                <img class="icon" src="../Register/Resources/logout.png"/>
+                <h4>Logout</h4>
+            </div>
+        </div>
+    </div>
+    <hr color="grey" size="1%">
+    <div class="container">
+        <div class="box">
+            <div class="policy-head">
+                <h2 class="policy-title">Your Policies</h3>
+                <button>Get my Policy</button>
+                <button id="home">Go Home</button>
+            </div>
+            <table id="myTable">
+                <thead>
+                  <tr>
+                    <th>Policy No.</th>
+                    <th>Commence Date</th>
+                    <th>Status</th>
+                    <th>Type</th>
+                    <th>Policy Title</th>
+                    <th>Premium Amount</th>
+                    <th>Next Due Date</th>
+                    <th>Sum assured</th>
+                    <th>Nominee reg?(Yes/No)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            <div id="pagination">
+                <button id="prevBtn" disabled>Previous</button>
+                <button id="nextBtn">Next</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var policyData = JSON.parse(sessionStorage.getItem('policyData'));
+    let data = [];
+
+    for(let i=0;i<policyData.length;i++){
+        let policy=policyData[i];
+        let obj={'1':policy.policyId,'2':policy.currentDate,'3':policy.status,'4':policy.polType,'5':policy.title,'6':policy.premium,'7':policy.nextDate,'8':policy.sum,'9':policy.nom};
+        data.push(obj);
+    }
+    const tableBody = document.querySelector("#myTable tbody");
+
+    data.forEach(item => {
+      const row = document.createElement("tr");
+      
+      for (let key in item) {
+        const cell = document.createElement("td");
+        cell.textContent = item[key];
+        row.appendChild(cell);
+      }
+
+      tableBody.appendChild(row);
+    });
+
+    const table = document.getElementById('myTable');
+    const rowsPerPage = 5;
+    let currentPage = 1;
+
+    function showPage(page) {
+      const rows = table.getElementsByTagName('tr');
+
+      const startIndex = (page - 1) * rowsPerPage + 1;
+      const endIndex = startIndex + rowsPerPage - 1;
+
+      for (let i = 1; i < rows.length; i++) {
+        if (i >= startIndex && i <= endIndex) {
+          rows[i].style.display = '';
+        } else {
+          rows[i].style.display = 'none';
+        }
+      }
+    }
+
+    function updatePaginationButtons() {
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      prevBtn.disabled = (currentPage === 1);
+      nextBtn.disabled = (currentPage === getTotalPages());
+    }
+
+    function getTotalPages() {
+      const totalRows = table.rows.length - 1;
+      return Math.ceil(totalRows / rowsPerPage);
+    }
+
+    function previousPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+        updatePaginationButtons();
+      }
+    }
+
+    function nextPage() {
+      if (currentPage < getTotalPages()) {
+        currentPage++;
+        showPage(currentPage);
+        updatePaginationButtons();
+      }
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', previousPage);
+    document.getElementById('nextBtn').addEventListener('click', nextPage);
+
+    showPage(currentPage);
+    updatePaginationButtons();
+
+    var user = JSON.parse(sessionStorage.getItem('currentLogin'));
+    function setValue(id, newvalue) {
+        var s = document.getElementById(id);
+        s.innerHTML = newvalue;
+    }
+
+    document.getElementById("logout").onclick = function () {
+        sessionStorage.clear();
+        location.href='../Login/Login.html';
+    }
+
+    document.getElementById("home").onclick = function () {
+        location.href='../Home/Home.html';
+    }
+
+    window.onload = function() {
+        setValue("custId", user.userId);
+        setValue("name", user.name);
+    }
+</script>
+</html>

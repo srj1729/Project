@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="./Home.css">
+    <script type="text/javascript" src="Home.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="title">
+            <img src="../Register/Resources/images.jpg"/>
+            <div class="info">
+                <h2>SHIELD INSURANCE</h2>
+                <h4>Reliable Fast Personable</h4>
+            </div>
+        </div>
+        <div class="loginfo">
+            <div class="details">
+                <div class="info-row"><h4>Customer Name :</h4><h4 id="name">Customer Name</h4></div>
+                <div class="info-row"><h4>Customer ID :</h4><h4 id="custId">Customer ID</h4></div>
+            </div>
+            <div class="logout" id="logout">
+                <img class="icon" src="../Register/Resources/logout.png"/>
+                <h4>Logout</h4>
+            </div>
+        </div>
+    </div>
+    <hr color="grey" size="1%">
+    <div class="container">
+        <div class="box">
+            <div class="greet">
+                <h3>FOLLOW YOUR DREAMS</h3>
+                <h1 style="color: blue; font-family: 'Courier New', Courier, monospace;">RELIABLE INSURANCE</h1>
+                <h1 style="color: blue; font-family: 'Courier New', Courier, monospace;">FOR ANY PURPOSE.</h1>
+                <div class="greet-row">
+                    <div class="vertical"></div>
+                    <p>Its our ambition to help you live your life</p>
+                </div>
+                <div class="btn-row" >
+                    <button id="choose-pol">Choose Policy</button>
+                    <button id="view-pol">View Your Policy</button>
+                </div>  
+            </div>
+            <img class="img-2" src="../Register/Resources/insurance.png"/>
+        </div>
+    </div>
+</body>
+<script>
+    var user = JSON.parse(sessionStorage.getItem('currentLogin'));
+    function setValue(id, newvalue) {
+        var s = document.getElementById(id);
+        s.innerHTML = newvalue;
+    }
+    window.onload = function() {
+        setValue("custId", user.userId);
+        setValue("name", user.name);
+    }
+    document.getElementById("choose-pol").onclick = function () {
+        location.href='../Policy/Policy.html';
+    }
+    document.getElementById("view-pol").onclick = function () {
+        location.href='../GetPolicy/Policy.html';
+    }
+    document.getElementById("logout").onclick = function () {
+        sessionStorage.clear();
+        location.href='../Login/Login.html';
+    }
+</script>
+</html>
